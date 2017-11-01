@@ -20,11 +20,14 @@ const users = require('./routes/users');
 //passport config
 require('./config/passport')(passport);
 
+// DB config file
+const db = require('./config/database');
+
 //map global promise -get rid of mongose warning
 mongoose.Promise = global.Promise;
 
 //conect to mongodbwith mongoose
-mongoose.connect('mongodb://localhost/vidjot-dev', {
+mongoose.connect(db.mongoURI, {
   useMongoClient: true
 })
   .then(()=>{
@@ -96,7 +99,7 @@ app.use('/ideas', ideas);
 app.use('/users', users);
 
 // set port
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 //app listens for reqests on port
 app.listen(port, ()=>{
